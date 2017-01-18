@@ -1,0 +1,5 @@
+---
+sitename: example-site
+urls:
+  - example.com
+webroot: /var/www/{{ sitename }}

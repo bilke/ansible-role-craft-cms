@@ -1,0 +1,31 @@
+---
+- name: Create directories ({{ sitename }})
+  file: path="{{ webroot }}/{{ item }}" state=directory mode=0755 owner=www-data group=www-data
+  with_items:
+    - public_html
+    - db_backups
+    - craft/storage
+  tags: craft
+
+- name: Create mysql database ({{ sitename }})
+  mysql_db: name={{ sitename }}
+  tags: craft
+
+- name: Create mysql user ({{ sitename }})
+  mysql_user: name={{ sitename }} password={{ sitename }} priv={{ sitename }}.*:ALL
+  tags: craft
+
+- name: Insert Craft Caddy config ({{ sitename }})
+  blockinfile:
+    dest: "{{ caddyfile }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - {{ sitename }}"
+    block: |
+      {{ urls|join(', ') }} {
+        root {{ webroot }}/public_html
+        fastcgi / /run/php/php7.0-fpm.sock php
+        rewrite {
+          to {path} {path}/ /index.php?p={path}&{query} /index.php?{query}
+        }
+      }
+  notify: restart caddy
+  tags: craft

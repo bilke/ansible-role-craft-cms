@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: caddy, ssh_access: true }
+  - role: mysql
+  - role: php
