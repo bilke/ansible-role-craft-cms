@@ -26,6 +26,7 @@
         rewrite {
           to {path} {path}/ /index.php?p={path}&{query} /index.php?{query}
         }
+        gzip
       }
   notify: restart caddy
   tags: craft
