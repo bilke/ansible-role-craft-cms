@@ -1,5 +1,5 @@
 ---
 dependencies:
-  - { role: caddy, ssh_access: true }
-  - role: mysql
-  - role: php
+  # - { role: caddy, ssh_access: true }
+  # - { role: mysql, become: true }
+  # - { role: php, become: true }
