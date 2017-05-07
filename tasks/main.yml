@@ -5,14 +5,17 @@
     - public_html
     - db_backups
     - craft/storage
+  become: true
   tags: craft
 
 - name: Create mysql database ({{ sitename }})
   mysql_db: name={{ sitename }}
+  become: true
   tags: craft
 
 - name: Create mysql user ({{ sitename }})
   mysql_user: name={{ sitename }} password={{ sitename }} priv={{ sitename }}.*:ALL
+  become: true
   tags: craft
 
 - name: Insert Craft Caddy config ({{ sitename }})
@@ -28,4 +31,5 @@
         }
       }
   notify: restart caddy
+  become: true
   tags: craft
